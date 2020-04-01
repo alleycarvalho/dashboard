@@ -1,0 +1,8 @@
+@import '~antd/dist/antd.css';
+
+.App {}
+
+.CardBriefing {
+	background: #ececec;
+	padding: 30px;
+}
