@@ -1,0 +1,94 @@
+.ant-layout {
+  height: 100%;
+}
+
+/* SIDEBAR */
+
+.ant-layout-sider {
+  background: #000;
+  border-right: 1px solid #555;
+}
+
+/* Sidebar: Logo */
+.logo {
+  background: #000;
+  text-align: center;
+  padding: 12px 10px 9px;;
+}
+
+.logo h1 {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 21px;
+  color: #FFD51D;
+  margin-bottom: 0;
+}
+
+.logo span {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #555;
+}
+
+/* Sidebar: Menu */
+ul.ant-menu-dark {
+  background: #222;
+  border-top: 1px solid #555;
+}
+
+ul.ant-menu-dark > li {
+  border-bottom: 1px solid #555;
+}
+
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-item:not(:last-child) {
+  margin: 0;
+}
+
+.ant-menu-inline .ant-menu-submenu {
+  padding-bottom: 0;
+}
+
+.ant-menu-inline .ant-menu-submenu-title {
+  margin: 0;
+  padding: 0 15px;
+}
+
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: #333;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color: rgba(255, 213, 59, 0.5);
+  color: #222;
+}
+
+.ant-menu-dark .ant-menu-item-selected .anticon + span {
+  color: #222;
+}
+
+.ant-menu-inline .ant-menu-item:first-child {
+  border-top: 1px solid #555;
+}
+
+/* MAINVIEW */
+
+/* Pages: Header */
+.page-header {
+  background: #DCDCDC;
+  border-bottom: 1px solid #AAA;
+}
+
+/* Pages: Content */
+.page-content {
+  padding: 30px;
+}
+
+/* Pages: Footer */
+.layout-footer {
+  background: #DCDCDC;
+  border-top: 1px solid #AAA;
+  text-align: right;
+  padding: 20px;
+}
