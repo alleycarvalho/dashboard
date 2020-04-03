@@ -10,6 +10,7 @@ export const credentials = {
  */
 export const { Types, Creators } = createActions({
   login: ['email', 'password'],
+  logout: [],
 });
 
 /**
@@ -36,9 +37,19 @@ const authLogin = (state = INITIAL_STATE, action) => {
   return state;
 };
 
+const authLogout = (state = INITIAL_STATE) => {
+  localStorage.clear();
+
+  state.error = null;
+  state.token = null;
+
+  return state;
+};
+
 /**
  * Creating reducer
  */
 export default createReducer(INITIAL_STATE, {
   [Types.LOGIN]: authLogin,
+  [Types.LOGOUT]: authLogout,
 });
