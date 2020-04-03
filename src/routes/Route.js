@@ -5,12 +5,14 @@ import { Route, Redirect } from 'react-router-dom';
 import DashboardLayout from '~/pages/_layouts/dashboard';
 import DefaultLayout from '~/pages/_layouts/default';
 
+import store from '~/store';
+
 export default function RouteWrapper({
   component: Component,
   isPrivate,
   ...rest
 }) {
-  const authenticated = false;
+  const authenticated = store.getState().auth.token;
 
   if (!authenticated && isPrivate) {
     return <Redirect to="/login" />;
