@@ -25,6 +25,14 @@ section.form form h1 {
   text-align: center;
 }
 
+.login-message {
+  padding: 10px 15px;
+  margin-bottom: 25px;
+  background: #ff4d4f;
+  color: #FFF;
+  border: 1px solid #CCC;
+}
+
 .login-form-button {
   width: 100%;
 }
