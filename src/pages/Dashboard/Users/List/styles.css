@@ -1,0 +1,8 @@
+.page-btn {
+  max-width: 200px;
+  margin-bottom: 20px;
+}
+
+.table-actions > button:first-child {
+  margin-right: 7px;
+}

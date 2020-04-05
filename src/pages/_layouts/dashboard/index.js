@@ -14,7 +14,7 @@ import { Creators as AuthActions } from '~/store/ducks/auth';
 
 import history from '~/services/history';
 
-const { Sider, Content, Footer } = Layout;
+const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
 const DashboardLayout = ({ children }) => {
@@ -27,6 +27,10 @@ const DashboardLayout = ({ children }) => {
       history.push('/login');
     }
   }, [token]);
+
+  const changePage = (slug) => {
+    history.push(`/dashboard/${slug}`);
+  };
 
   const handleLogout = () => {
     dispatch(AuthActions.logout());
@@ -50,7 +54,9 @@ const DashboardLayout = ({ children }) => {
               </span>
             }
           >
-            <Menu.Item key="1">Todos Usuários</Menu.Item>
+            <Menu.Item key="1" onClick={() => changePage('users')}>
+              Todos Usuários
+            </Menu.Item>
             <Menu.Item key="2">Novo Usuário</Menu.Item>
           </SubMenu>
 
@@ -80,9 +86,9 @@ const DashboardLayout = ({ children }) => {
       <Layout>
         <Content className="layout-content">{children}</Content>
 
-        <Footer className="layout-footer">
+        {/* <Footer className="layout-footer">
           Criado por <strong>Alley M. Carvalho</strong>
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   );
