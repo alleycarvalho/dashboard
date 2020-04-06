@@ -13,6 +13,7 @@ import history from '~/services/history';
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const error = useSelector((state) => state.auth.error);
   const token = useSelector((state) => state.auth.token);
@@ -21,7 +22,13 @@ const Auth = () => {
 
   useEffect(() => {
     if (token) {
-      history.push('/dashboard');
+      setLoading(true);
+
+      setTimeout(() => {
+        setLoading(false);
+
+        history.push('/dashboard');
+      }, 1500);
     }
   }, [token]);
 
@@ -51,6 +58,7 @@ const Auth = () => {
               size="large"
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="Seu e-mail"
+              disabled={loading}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -70,6 +78,7 @@ const Auth = () => {
               size="large"
               prefix={<LockOutlined className="site-form-item-icon" />}
               placeholder="Sua senha"
+              disabled={loading}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -81,6 +90,7 @@ const Auth = () => {
               htmlType="submit"
               size="large"
               className="login-form-button"
+              loading={loading}
             >
               Entrar
             </Button>

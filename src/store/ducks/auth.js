@@ -27,7 +27,7 @@ const authLogin = (state = INITIAL_STATE, action) => {
   state.error = null;
 
   if (email === credentials.email && password === credentials.password) {
-    state.token = process.env.REACT_APP_GOREST_TOKEN;
+    state.token = process.env.REACT_APP_GOREST_API_ACCESS_TOKEN;
 
     localStorage.setItem('cmswUserToken', state.token);
   } else {
