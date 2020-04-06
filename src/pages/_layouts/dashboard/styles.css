@@ -72,6 +72,10 @@ ul.ant-menu-dark > li {
   border-top: 1px solid #555;
 }
 
+.ant-menu .quick-access {
+  padding-left: 25px !important;
+}
+
 /* MAINVIEW */
 
 /* Pages: Header */

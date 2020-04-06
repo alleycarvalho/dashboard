@@ -11,6 +11,13 @@ const usersThunks = {
       .finally(() => dispatch(UsersActions.loading(false)));
   },
 
+  getFirstUsers: () => (dispatch) => {
+    api
+      .get(`users`)
+      .then((users) => dispatch(UsersActions.listFirstUsers(users.data)))
+      .finally();
+  },
+
   getUser: (id) => (dispatch) => {
     dispatch(UsersActions.loading(true));
 

@@ -12,6 +12,8 @@ import './styles.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as AuthActions } from '~/store/ducks/auth';
 
+import { usersThunks } from '~/store/thunks/users';
+
 import history from '~/services/history';
 
 const { Sider, Content } = Layout;
@@ -19,6 +21,8 @@ const { SubMenu } = Menu;
 
 const DashboardLayout = ({ children }) => {
   const token = useSelector((state) => state.auth.token);
+  const firstUsers = useSelector((state) => state.users.firstUsers);
+  const loading = useSelector((state) => state.users.loading);
 
   const dispatch = useDispatch();
 
@@ -27,6 +31,10 @@ const DashboardLayout = ({ children }) => {
       history.push('/login');
     }
   }, [token]);
+
+  useEffect(() => {
+    dispatch(usersThunks.getFirstUsers());
+  }, [dispatch, loading]);
 
   const changePage = (slug) => {
     history.push(`/dashboard/${slug}`);
@@ -71,11 +79,15 @@ const DashboardLayout = ({ children }) => {
               </span>
             }
           >
-            <Menu.Item key="u1">Usuário 01</Menu.Item>
-            <Menu.Item key="u2">Usuário 02</Menu.Item>
-            <Menu.Item key="u3">Usuário 03</Menu.Item>
-            <Menu.Item key="u4">Usuário 04</Menu.Item>
-            <Menu.Item key="u5">Usuário 05</Menu.Item>
+            {firstUsers.map((user) => (
+              <Menu.Item
+                key={user.id}
+                className="quick-access"
+                onClick={() => changePage(`users/${user.id}/update`)}
+              >
+                {`${user.first_name} ${user.last_name}`}
+              </Menu.Item>
+            ))}
           </SubMenu>
 
           <Menu.Item key="3" onClick={handleLogout}>

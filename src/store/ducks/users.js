@@ -5,6 +5,7 @@ import { createActions, createReducer } from 'reduxsauce';
  */
 export const { Types, Creators } = createActions({
   listAll: ['users'],
+  listFirstUsers: ['users'],
   show: ['user'],
   store: ['user'],
   update: ['user'],
@@ -20,6 +21,7 @@ const INITIAL_STATE = {
   authorized: true,
   list: [],
   listData: {},
+  firstUsers: [],
   user: {},
   loading: false,
 };
@@ -44,6 +46,17 @@ const getAllUsers = (state = INITIAL_STATE, action) => {
     };
   } else {
     state.authorized = false;
+  }
+
+  return state;
+};
+
+const getFirstUsers = (state = INITIAL_STATE, action) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const { _meta, result } = action.users;
+
+  if (_meta.success) {
+    state.firstUsers = result.slice(0, 5);
   }
 
   return state;
@@ -202,6 +215,7 @@ const setLoading = (state = INITIAL_STATE, action) => {
  */
 export default createReducer(INITIAL_STATE, {
   [Types.LIST_ALL]: getAllUsers,
+  [Types.LIST_FIRST_USERS]: getFirstUsers,
   [Types.SHOW]: getUser,
   [Types.STORE]: store,
   [Types.UPDATE]: update,
