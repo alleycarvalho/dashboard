@@ -8,6 +8,7 @@ export const { Types, Creators } = createActions({
   show: ['user'],
   store: ['user'],
   update: ['user'],
+  destroy: ['user'],
   loading: ['status'],
 });
 
@@ -159,6 +160,37 @@ const update = (state = INITIAL_STATE, action) => {
   return state;
 };
 
+const destroy = (state = INITIAL_STATE, action) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const { _meta } = action.user;
+
+  state.authorized = true;
+
+  if (_meta.success) {
+    state.alert = {
+      type: 'success',
+      message: 'Usuário removido com sucesso!',
+    };
+  } else {
+    let message = 'Ocorreu um erro.';
+
+    switch (_meta.code) {
+      case 401:
+        state.authorized = false;
+        message = 'Operação não autorizada!';
+        break;
+      default:
+    }
+
+    state.alert = {
+      type: 'error',
+      message,
+    };
+  }
+
+  return state;
+};
+
 const setLoading = (state = INITIAL_STATE, action) => {
   state.loading = action.status;
 
@@ -173,5 +205,6 @@ export default createReducer(INITIAL_STATE, {
   [Types.SHOW]: getUser,
   [Types.STORE]: store,
   [Types.UPDATE]: update,
+  [Types.DESTROY]: destroy,
   [Types.LOADING]: setLoading,
 });

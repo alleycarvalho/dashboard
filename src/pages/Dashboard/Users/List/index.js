@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Layout, PageHeader, Table, Button, Popconfirm, Alert } from 'antd';
+import {
+  Layout,
+  PageHeader,
+  Table,
+  Button,
+  Popconfirm,
+  Tooltip,
+  Alert,
+} from 'antd';
 import { DeleteOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
 
 import './styles.css';
 
@@ -12,12 +21,19 @@ import { usersThunks } from '~/store/thunks/users';
 import history from '~/services/history';
 
 const UsersList = () => {
+  const alert = useSelector((state) => state.users.alert);
   const authorized = useSelector((state) => state.users.authorized);
   const users = useSelector((state) => state.users.list);
   const tableFooter = useSelector((state) => state.users.listData);
   const loading = useSelector((state) => state.users.loading);
   const [tablePagination, setTablePagination] = useState({});
   const [page, setPage] = useState(1);
+
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch(usersThunks.deleteUser(id));
+  };
 
   const tableColumns = [
     {
@@ -71,19 +87,19 @@ const UsersList = () => {
           </Link>
 
           <Popconfirm
-            title="Deseja excluir？"
+            title={`ID ${record.id}: deseja excluir？`}
             okText="Sim"
             cancelText="Não"
-            onConfirm={() => {}}
+            onConfirm={() => handleDelete(record.id)}
           >
-            <Button type="danger" size="small" icon={<DeleteOutlined />} />
+            <Tooltip title={`${record.id}`} placement="left">
+              <Button type="danger" size="small" icon={<DeleteOutlined />} />
+            </Tooltip>
           </Popconfirm>
         </span>
       ),
     },
   ];
-
-  const dispatch = useDispatch();
 
   const handleTableChange = (pagination) => {
     const pager = { pagination };
@@ -107,6 +123,14 @@ const UsersList = () => {
 
     return info;
   };
+
+  useEffect(() => {
+    if (alert) {
+      const { type, message } = alert;
+
+      toast(message, { type });
+    }
+  }, [alert]);
 
   useEffect(() => {
     dispatch(usersThunks.getAll(page));

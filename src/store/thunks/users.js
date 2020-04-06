@@ -37,6 +37,15 @@ const usersThunks = {
       .then((user) => dispatch(UsersActions.update(user.data)))
       .finally(() => dispatch(UsersActions.loading(false)));
   },
+
+  deleteUser: (id) => (dispatch) => {
+    dispatch(UsersActions.loading(true));
+
+    api
+      .delete(`users/${id}`)
+      .then((user) => dispatch(UsersActions.destroy(user.data)))
+      .finally(() => dispatch(UsersActions.loading(false)));
+  },
 };
 
 export { usersThunks };

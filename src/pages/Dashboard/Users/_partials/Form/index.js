@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Select, Button } from 'antd';
+import { Form, Input, Select, Button, Popconfirm } from 'antd';
 import { toast } from 'react-toastify';
 
 import './styles.css';
@@ -54,14 +54,12 @@ const UsersForm = ({ updating }) => {
   };
 
   useEffect(() => {
-    if (alert) {
-      const { type, message } = alert;
+    const { type, message } = alert;
 
+    if (type === 'success') {
+      history.push('/dashboard/users');
+    } else if (type === 'error') {
       toast(message, { type });
-
-      if (type === 'success') {
-        history.push('/dashboard/users');
-      }
     }
   }, [alert]);
 
@@ -160,6 +158,25 @@ const UsersForm = ({ updating }) => {
         >
           {updating ? 'Atualizar' : 'Cadastrar'}
         </Button>
+
+        {updating && (
+          <Popconfirm
+            title={`ID ${user.id}: deseja excluir？`}
+            okText="Sim"
+            cancelText="Não"
+            onConfirm={() => dispatch(usersThunks.deleteUser(user.id))}
+          >
+            <Button
+              type="danger"
+              size="large"
+              className="btn-remove"
+              loading={loading}
+              disabled={loading}
+            >
+              Excluir
+            </Button>
+          </Popconfirm>
+        )}
       </Form.Item>
     </Form>
   );

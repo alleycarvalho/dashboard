@@ -16,3 +16,7 @@
   padding: 8px;
   border: 1px solid #AAA;
 }
+
+.page-form .btn-remove {
+  margin-left: 20px;
+}
