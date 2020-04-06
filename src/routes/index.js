@@ -9,6 +9,7 @@ import NotFound from '~/pages/404';
  * Dashboard Components
  */
 import UsersList from '~/pages/Dashboard/Users/List';
+import UsersCreate from '~/pages/Dashboard/Users/Create';
 
 export default function Routes() {
   return (
@@ -18,6 +19,7 @@ export default function Routes() {
 
       <Route path="/dashboard" exact component={UsersList} isPrivate />
       <Route path="/dashboard/users" exact component={UsersList} isPrivate />
+      <Route path="/dashboard/users/create" component={UsersCreate} isPrivate />
 
       <Route path="/" component={NotFound} />
     </Switch>

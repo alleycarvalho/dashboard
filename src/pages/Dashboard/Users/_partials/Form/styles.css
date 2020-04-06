@@ -1,0 +1,18 @@
+.page-form {
+  width: 100%;
+  max-width: 500px;
+  padding: 15px 15px 0;
+  margin-bottom: 30px;
+  background: #DCDCDC;
+  border: 1px solid #AAA;
+  border-radius: 10px;
+}
+
+.page-form .form-title {
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  background: #CCC;
+  padding: 8px;
+  border: 1px solid #AAA;
+}

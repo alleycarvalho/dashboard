@@ -133,7 +133,7 @@ const UsersList = () => {
           type="primary"
           className="page-btn"
           icon={<PlusOutlined />}
-          onClick={() => {}}
+          onClick={() => history.push('/dashboard/users/create')}
         >
           Adicionar novo usuário
         </Button>

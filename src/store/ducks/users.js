@@ -5,6 +5,7 @@ import { createActions, createReducer } from 'reduxsauce';
  */
 export const { Types, Creators } = createActions({
   listAll: ['users'],
+  store: ['user'],
   loading: ['status'],
 });
 
@@ -12,6 +13,7 @@ export const { Types, Creators } = createActions({
  * Creating reducer handlers
  */
 const INITIAL_STATE = {
+  alert: false,
   authorized: true,
   list: [],
   listData: {},
@@ -22,6 +24,7 @@ const getAllUsers = (state = INITIAL_STATE, action) => {
   // eslint-disable-next-line no-underscore-dangle
   const { _meta, result } = action.users;
 
+  state.alert = false;
   state.authorized = true;
 
   if (_meta.success) {
@@ -41,6 +44,40 @@ const getAllUsers = (state = INITIAL_STATE, action) => {
   return state;
 };
 
+const store = (state = INITIAL_STATE, action) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const { _meta } = action.user;
+
+  state.authorized = true;
+
+  if (_meta.success) {
+    state.alert = {
+      type: 'success',
+      message: 'Usuário cadastrado com sucesso!',
+    };
+  } else {
+    let message = 'Ocorreu um erro.';
+
+    switch (_meta.code) {
+      case 401:
+        state.authorized = false;
+        message = 'Operação não autorizada!';
+        break;
+      case 422:
+        message = 'O e-mail já existe no sistema!';
+        break;
+      default:
+    }
+
+    state.alert = {
+      type: 'error',
+      message,
+    };
+  }
+
+  return state;
+};
+
 const setLoading = (state = INITIAL_STATE, action) => {
   state.loading = action.status;
 
@@ -52,5 +89,6 @@ const setLoading = (state = INITIAL_STATE, action) => {
  */
 export default createReducer(INITIAL_STATE, {
   [Types.LIST_ALL]: getAllUsers,
+  [Types.STORE]: store,
   [Types.LOADING]: setLoading,
 });

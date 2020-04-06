@@ -57,7 +57,9 @@ const DashboardLayout = ({ children }) => {
             <Menu.Item key="1" onClick={() => changePage('users')}>
               Todos Usuários
             </Menu.Item>
-            <Menu.Item key="2">Novo Usuário</Menu.Item>
+            <Menu.Item key="2" onClick={() => changePage('users/create')}>
+              Novo Usuário
+            </Menu.Item>
           </SubMenu>
 
           <SubMenu

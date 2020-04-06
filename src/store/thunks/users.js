@@ -10,6 +10,15 @@ const usersThunks = {
       .then((users) => dispatch(UsersActions.listAll(users.data)))
       .finally(() => dispatch(UsersActions.loading(false)));
   },
+
+  createUser: (data) => (dispatch) => {
+    dispatch(UsersActions.loading(true));
+
+    api
+      .post('users', data)
+      .then((user) => dispatch(UsersActions.store(user.data)))
+      .finally(() => dispatch(UsersActions.loading(false)));
+  },
 };
 
 export { usersThunks };
