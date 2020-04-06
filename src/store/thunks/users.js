@@ -11,12 +11,30 @@ const usersThunks = {
       .finally(() => dispatch(UsersActions.loading(false)));
   },
 
+  getUser: (id) => (dispatch) => {
+    dispatch(UsersActions.loading(true));
+
+    api
+      .get(`users/${id}`)
+      .then((user) => dispatch(UsersActions.show(user.data)))
+      .finally(() => dispatch(UsersActions.loading(false)));
+  },
+
   createUser: (data) => (dispatch) => {
     dispatch(UsersActions.loading(true));
 
     api
       .post('users', data)
       .then((user) => dispatch(UsersActions.store(user.data)))
+      .finally(() => dispatch(UsersActions.loading(false)));
+  },
+
+  updateUser: (data, id) => (dispatch) => {
+    dispatch(UsersActions.loading(true));
+
+    api
+      .put(`users/${id}`, data)
+      .then((user) => dispatch(UsersActions.update(user.data)))
       .finally(() => dispatch(UsersActions.loading(false)));
   },
 };

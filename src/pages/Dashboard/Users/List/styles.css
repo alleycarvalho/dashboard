@@ -3,6 +3,11 @@
   margin-bottom: 20px;
 }
 
-.table-actions > button:first-child {
+.table-actions > a:first-child {
   margin-right: 7px;
+}
+
+.table-actions .btn-action {
+  padding: 4px 5px;
+  border-radius: 3px;
 }

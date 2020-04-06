@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input, Select, Button } from 'antd';
 import { toast } from 'react-toastify';
 
@@ -33,18 +34,23 @@ const initialData = {
   status: 'active',
 };
 
-const UsersForm = () => {
+const UsersForm = ({ updating }) => {
   const [form] = Form.useForm();
 
   const alert = useSelector((state) => state.users.alert);
   const loading = useSelector((state) => state.users.loading);
+  const user = useSelector((state) => state.users.user);
 
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
     const values = form.getFieldsValue();
 
-    dispatch(usersThunks.createUser(values));
+    if (updating) {
+      dispatch(usersThunks.updateUser(values, user.id));
+    } else {
+      dispatch(usersThunks.createUser(values));
+    }
   };
 
   useEffect(() => {
@@ -64,8 +70,10 @@ const UsersForm = () => {
       form.setFieldsValue(data);
     };
 
-    handleFill(initialData);
-  }, [form]);
+    const formData = updating ? user : initialData;
+
+    handleFill(formData);
+  }, [form, updating, user]);
 
   return (
     <Form
@@ -89,7 +97,7 @@ const UsersForm = () => {
           },
         ]}
       >
-        <Input placeholder="Primeiro nome" size="large" />
+        <Input placeholder="Primeiro nome" size="large" disabled={loading} />
       </Form.Item>
 
       <Form.Item
@@ -102,11 +110,11 @@ const UsersForm = () => {
           },
         ]}
       >
-        <Input placeholder="Sobrenome" size="large" />
+        <Input placeholder="Sobrenome" size="large" disabled={loading} />
       </Form.Item>
 
       <Form.Item name="gender" label="Sexo:">
-        <Select size="large">
+        <Select size="large" disabled={loading}>
           <Option value="female">Feminino</Option>
           <Option value="male">Masculino</Option>
         </Select>
@@ -122,15 +130,20 @@ const UsersForm = () => {
           },
         ]}
       >
-        <Input type="email" placeholder="E-mail" size="large" />
+        <Input
+          type="email"
+          placeholder="E-mail"
+          size="large"
+          disabled={loading}
+        />
       </Form.Item>
 
       <Form.Item name="phone" label="Telefone:">
-        <Input placeholder="Telefone" size="large" />
+        <Input placeholder="Telefone" size="large" disabled={loading} />
       </Form.Item>
 
       <Form.Item name="status" label="Status:">
-        <Select size="large">
+        <Select size="large" disabled={loading}>
           <Option value="active">Ativo</Option>
           <Option value="inactive">Inativo</Option>
         </Select>
@@ -143,12 +156,21 @@ const UsersForm = () => {
           size="large"
           className="page-form-button"
           loading={loading}
+          disabled={loading}
         >
-          Cadastrar
+          {updating ? 'Atualizar' : 'Cadastrar'}
         </Button>
       </Form.Item>
     </Form>
   );
+};
+
+UsersForm.propTypes = {
+  updating: PropTypes.bool,
+};
+
+UsersForm.defaultProps = {
+  updating: false,
 };
 
 export default UsersForm;

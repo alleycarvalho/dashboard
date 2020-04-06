@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Layout, PageHeader, Table, Button, Popconfirm, Alert } from 'antd';
 import { DeleteOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -60,14 +61,14 @@ const UsersList = () => {
       key: 'actions',
       width: 75,
       fixed: 'right',
-      render: () => (
+      render: (record) => (
         <span className="table-actions">
-          <Button
-            type="primary"
-            size="small"
-            icon={<FormOutlined />}
-            onClick={() => {}}
-          />
+          <Link
+            to={`/dashboard/users/${record.id}/update`}
+            className="btn-action ant-btn-primary"
+          >
+            <FormOutlined />
+          </Link>
 
           <Popconfirm
             title="Deseja excluir？"
