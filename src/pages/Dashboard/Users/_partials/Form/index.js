@@ -38,7 +38,7 @@ const UsersForm = ({ updating }) => {
   const [form] = Form.useForm();
 
   const alert = useSelector((state) => state.users.alert);
-  const loading = useSelector((state) => state.users.loading);
+  const loading = useSelector((state) => state.utilities.loading);
   const user = useSelector((state) => state.users.user);
 
   const dispatch = useDispatch();

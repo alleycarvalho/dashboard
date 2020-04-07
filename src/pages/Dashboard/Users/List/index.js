@@ -26,7 +26,7 @@ const UsersList = () => {
   const alert = useSelector((state) => state.users.alert);
   const users = useSelector((state) => state.users.list);
   const tableFooter = useSelector((state) => state.users.listData);
-  const loading = useSelector((state) => state.users.loading);
+  const loading = useSelector((state) => state.utilities.loading);
   const [tablePagination, setTablePagination] = useState({});
   const [page, setPage] = useState(1);
   const [term, setTerm] = useState('');

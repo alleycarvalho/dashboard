@@ -23,7 +23,7 @@ const DashboardLayout = ({ children }) => {
   const [itemMenu, setItemMenu] = useState('sub1-1');
   const token = useSelector((state) => state.auth.token);
   const firstUsers = useSelector((state) => state.users.firstUsers);
-  const loading = useSelector((state) => state.users.loading);
+  const loading = useSelector((state) => state.utilities.loading);
 
   const dispatch = useDispatch();
 

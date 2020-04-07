@@ -10,7 +10,6 @@ export const { Types, Creators } = createActions({
   store: ['user'],
   update: ['user'],
   destroy: ['user'],
-  loading: ['status'],
 });
 
 /**
@@ -22,7 +21,6 @@ const INITIAL_STATE = {
   listData: {},
   firstUsers: [],
   user: {},
-  loading: false,
 };
 
 const getAllUsers = (state = INITIAL_STATE, action) => {
@@ -189,12 +187,6 @@ const destroy = (state = INITIAL_STATE, action) => {
   return state;
 };
 
-const setLoading = (state = INITIAL_STATE, action) => {
-  state.loading = action.status;
-
-  return state;
-};
-
 /**
  * Creating reducer
  */
@@ -205,5 +197,4 @@ export default createReducer(INITIAL_STATE, {
   [Types.STORE]: store,
   [Types.UPDATE]: update,
   [Types.DESTROY]: destroy,
-  [Types.LOADING]: setLoading,
 });
