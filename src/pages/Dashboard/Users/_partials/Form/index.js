@@ -43,7 +43,7 @@ const UsersForm = ({ updating }) => {
     const values = form.getFieldsValue();
 
     if (updating) {
-      dispatch(usersThunks.updateUser(values, user.id));
+      dispatch(usersThunks.editUser(values, user.id));
     } else {
       dispatch(usersThunks.createUser(values));
     }

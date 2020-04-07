@@ -8,8 +8,6 @@ import './styles.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Creators as AuthActions, credentials } from '~/store/ducks/auth';
 
-import history from '~/services/history';
-
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,7 +25,7 @@ const Auth = () => {
       setTimeout(() => {
         setLoading(false);
 
-        history.push('/dashboard');
+        window.location.reload();
       }, 1500);
     }
   }, [token]);

@@ -22,8 +22,8 @@ import history from '~/services/history';
 const { Search } = Input;
 
 const UsersList = () => {
-  const users = useSelector((state) => state.users.list);
-  const tableFooter = useSelector((state) => state.users.listData);
+  const users = useSelector((state) => state.users.users);
+  const tableFooter = useSelector((state) => state.users.usersData);
   const loading = useSelector((state) => state.utilities.loading);
   const [tablePagination, setTablePagination] = useState({});
   const [page, setPage] = useState(1);
@@ -129,7 +129,7 @@ const UsersList = () => {
   };
 
   useEffect(() => {
-    dispatch(usersThunks.getAll(page, term));
+    dispatch(usersThunks.getUsers(page, term));
 
     setTablePagination({
       pageSize: 20,

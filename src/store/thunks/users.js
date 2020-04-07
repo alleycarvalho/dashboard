@@ -1,23 +1,24 @@
 import api from '~/services/api';
+
 import { Creators as UsersActions } from '~/store/ducks/users';
 import { Creators as UtilitiesActions } from '~/store/ducks/utilities';
 
 import history from '~/services/history';
 
 const usersThunks = {
-  getAll: (page = 1, term = '') => async (dispatch) => {
+  getUsers: (page = 1, term = '') => async (dispatch) => {
     dispatch(UtilitiesActions.setLoading(true));
 
     await api
       .get(`users?page=${page}&first_name=${term}`)
-      .then((users) => dispatch(UsersActions.listAll(users.data)))
+      .then((users) => dispatch(UsersActions.getUsers(users.data)))
       .finally(() => dispatch(UtilitiesActions.setLoading(false)));
   },
 
   getFirstUsers: () => async (dispatch) => {
     await api
       .get(`users`)
-      .then((users) => dispatch(UsersActions.listFirstUsers(users.data)))
+      .then((users) => dispatch(UsersActions.getFirstUsers(users.data)))
       .finally();
   },
 
@@ -47,7 +48,7 @@ const usersThunks = {
       .finally(() => dispatch(UtilitiesActions.setLoading(false)));
   },
 
-  updateUser: (data, id) => async (dispatch) => {
+  editUser: (data, id) => async (dispatch) => {
     dispatch(UtilitiesActions.setLoading(true));
 
     await api
