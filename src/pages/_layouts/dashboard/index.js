@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Menu } from 'antd';
 import {
@@ -20,11 +20,14 @@ const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
 const DashboardLayout = ({ children }) => {
+  const [itemMenu, setItemMenu] = useState('sub1-1');
   const token = useSelector((state) => state.auth.token);
   const firstUsers = useSelector((state) => state.users.firstUsers);
   const loading = useSelector((state) => state.users.loading);
 
   const dispatch = useDispatch();
+
+  const { path } = children.props.match;
 
   useEffect(() => {
     if (!token) {
@@ -33,8 +36,20 @@ const DashboardLayout = ({ children }) => {
   }, [token]);
 
   useEffect(() => {
+    if (path.includes('create')) {
+      setItemMenu('sub1-2');
+    } else if (!path.includes('update')) {
+      setItemMenu('sub1-1');
+    }
+  }, [path]);
+
+  useEffect(() => {
     dispatch(usersThunks.getFirstUsers());
   }, [dispatch, loading]);
+
+  const changeItemMenu = (e) => {
+    setItemMenu(e.key);
+  };
 
   const changePage = (slug) => {
     history.push(`/dashboard/${slug}`);
@@ -52,7 +67,14 @@ const DashboardLayout = ({ children }) => {
           <span>Dashboard</span>
         </div>
 
-        <Menu theme="dark" mode="inline">
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultOpenKeys={['sub1']}
+          defaultSelectedKeys={[itemMenu]}
+          selectedKeys={[itemMenu]}
+          onSelect={changeItemMenu}
+        >
           <SubMenu
             key="sub1"
             title={
@@ -62,10 +84,10 @@ const DashboardLayout = ({ children }) => {
               </span>
             }
           >
-            <Menu.Item key="1" onClick={() => changePage('users')}>
+            <Menu.Item key="sub1-1" onClick={() => changePage('users')}>
               Todos Usuários
             </Menu.Item>
-            <Menu.Item key="2" onClick={() => changePage('users/create')}>
+            <Menu.Item key="sub1-2" onClick={() => changePage('users/create')}>
               Novo Usuário
             </Menu.Item>
           </SubMenu>
@@ -81,7 +103,7 @@ const DashboardLayout = ({ children }) => {
           >
             {firstUsers.map((user) => (
               <Menu.Item
-                key={user.id}
+                key={`sub2-${user.id}`}
                 className="quick-access"
                 onClick={() => changePage(`users/${user.id}/update`)}
               >
@@ -90,7 +112,7 @@ const DashboardLayout = ({ children }) => {
             ))}
           </SubMenu>
 
-          <Menu.Item key="3" onClick={handleLogout}>
+          <Menu.Item key="sub3" onClick={handleLogout}>
             <PoweroffOutlined />
             <span>Sair</span>
           </Menu.Item>
