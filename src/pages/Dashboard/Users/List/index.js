@@ -10,7 +10,6 @@ import {
   Tooltip,
 } from 'antd';
 import { DeleteOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
-import { toast } from 'react-toastify';
 
 import './styles.css';
 
@@ -23,7 +22,6 @@ import history from '~/services/history';
 const { Search } = Input;
 
 const UsersList = () => {
-  const alert = useSelector((state) => state.users.alert);
   const users = useSelector((state) => state.users.list);
   const tableFooter = useSelector((state) => state.users.listData);
   const loading = useSelector((state) => state.utilities.loading);
@@ -129,14 +127,6 @@ const UsersList = () => {
 
     return info;
   };
-
-  useEffect(() => {
-    if (alert) {
-      const { type, message } = alert;
-
-      toast(message, { type });
-    }
-  }, [alert]);
 
   useEffect(() => {
     dispatch(usersThunks.getAll(page, term));

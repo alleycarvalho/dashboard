@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, Select, Button, Popconfirm } from 'antd';
-import { toast } from 'react-toastify';
 
 import './styles.css';
 
 import { useDispatch, useSelector } from 'react-redux';
 
 import { usersThunks } from '~/store/thunks/users';
-
-import history from '~/services/history';
 
 const { Option } = Select;
 
@@ -37,7 +34,6 @@ const initialData = {
 const UsersForm = ({ updating }) => {
   const [form] = Form.useForm();
 
-  const alert = useSelector((state) => state.users.alert);
   const loading = useSelector((state) => state.utilities.loading);
   const user = useSelector((state) => state.users.user);
 
@@ -52,16 +48,6 @@ const UsersForm = ({ updating }) => {
       dispatch(usersThunks.createUser(values));
     }
   };
-
-  useEffect(() => {
-    const { type, message } = alert;
-
-    if (type === 'success') {
-      history.push('/dashboard/users');
-    } else if (type === 'error') {
-      toast(message, { type });
-    }
-  }, [alert]);
 
   useEffect(() => {
     const handleFill = (data) => {

@@ -7,16 +7,13 @@ export const { Types, Creators } = createActions({
   listAll: ['users'],
   listFirstUsers: ['users'],
   show: ['user'],
-  store: ['user'],
-  update: ['user'],
-  destroy: ['user'],
+  destroy: ['id'],
 });
 
 /**
  * Creating reducer handlers
  */
 const INITIAL_STATE = {
-  alert: false,
   list: [],
   listData: {},
   firstUsers: [],
@@ -27,7 +24,6 @@ const getAllUsers = (state = INITIAL_STATE, action) => {
   // eslint-disable-next-line no-underscore-dangle
   const { _meta, result } = action.users;
 
-  state.alert = false;
   state.user = {};
 
   if (_meta.success) {
@@ -60,8 +56,6 @@ const getUser = (state = INITIAL_STATE, action) => {
   // eslint-disable-next-line no-underscore-dangle
   const { _meta, result } = action.user;
 
-  state.alert = false;
-
   if (_meta.success) {
     // eslint-disable-next-line camelcase
     const { id, first_name, last_name, gender, email, phone, status } = result;
@@ -75,85 +69,6 @@ const getUser = (state = INITIAL_STATE, action) => {
       phone,
       status,
     };
-  } else {
-    let message = 'Ocorreu um erro.';
-
-    switch (_meta.code) {
-      case 401:
-        message = 'Operação não autorizada!';
-        break;
-      case 404:
-        message = 'Usuário não encontrado!';
-        break;
-      default:
-    }
-
-    state.alert = {
-      type: 'error',
-      message,
-    };
-  }
-
-  return state;
-};
-
-const store = (state = INITIAL_STATE, action) => {
-  // eslint-disable-next-line no-underscore-dangle
-  const { _meta } = action.user;
-
-  if (_meta.success) {
-    state.alert = {
-      type: 'success',
-      message: 'Usuário cadastrado com sucesso!',
-    };
-  } else {
-    let message = 'Ocorreu um erro.';
-
-    switch (_meta.code) {
-      case 401:
-        message = 'Operação não autorizada!';
-        break;
-      case 422:
-        message = 'O e-mail já existe no sistema!';
-        break;
-      default:
-    }
-
-    state.alert = {
-      type: 'error',
-      message,
-    };
-  }
-
-  return state;
-};
-
-const update = (state = INITIAL_STATE, action) => {
-  // eslint-disable-next-line no-underscore-dangle
-  const { _meta } = action.user;
-
-  if (_meta.success) {
-    state.alert = {
-      type: 'success',
-      message: 'Usuário atualizado com sucesso!',
-    };
-  } else {
-    let message = 'Ocorreu um erro.';
-
-    switch (_meta.code) {
-      case 401:
-        message = 'Operação não autorizada!';
-        break;
-      case 422:
-        message = 'O e-mail já existe no sistema!';
-        break;
-      default:
-    }
-
-    state.alert = {
-      type: 'error',
-      message,
-    };
   }
 
   return state;
@@ -161,28 +76,9 @@ const update = (state = INITIAL_STATE, action) => {
 
 const destroy = (state = INITIAL_STATE, action) => {
   // eslint-disable-next-line no-underscore-dangle
-  const { _meta } = action.user;
+  const { id } = action;
 
-  if (_meta.success) {
-    state.alert = {
-      type: 'success',
-      message: 'Usuário removido com sucesso!',
-    };
-  } else {
-    let message = 'Ocorreu um erro.';
-
-    switch (_meta.code) {
-      case 401:
-        message = 'Operação não autorizada!';
-        break;
-      default:
-    }
-
-    state.alert = {
-      type: 'error',
-      message,
-    };
-  }
+  state.list = state.list.filter((item) => item.id !== id);
 
   return state;
 };
@@ -194,7 +90,5 @@ export default createReducer(INITIAL_STATE, {
   [Types.LIST_ALL]: getAllUsers,
   [Types.LIST_FIRST_USERS]: getFirstUsers,
   [Types.SHOW]: getUser,
-  [Types.STORE]: store,
-  [Types.UPDATE]: update,
   [Types.DESTROY]: destroy,
 });
