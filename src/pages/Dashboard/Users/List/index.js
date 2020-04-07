@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Layout,
   PageHeader,
+  Input,
   Table,
   Button,
   Popconfirm,
@@ -20,6 +21,8 @@ import { usersThunks } from '~/store/thunks/users';
 
 import history from '~/services/history';
 
+const { Search } = Input;
+
 const UsersList = () => {
   const alert = useSelector((state) => state.users.alert);
   const authorized = useSelector((state) => state.users.authorized);
@@ -28,8 +31,13 @@ const UsersList = () => {
   const loading = useSelector((state) => state.users.loading);
   const [tablePagination, setTablePagination] = useState({});
   const [page, setPage] = useState(1);
+  const [term, setTerm] = useState('');
 
   const dispatch = useDispatch();
+
+  const handleSearchUsers = (value) => {
+    setTerm(value);
+  };
 
   const handleDelete = (id) => {
     dispatch(usersThunks.deleteUser(id));
@@ -133,7 +141,7 @@ const UsersList = () => {
   }, [alert]);
 
   useEffect(() => {
-    dispatch(usersThunks.getAll(page));
+    dispatch(usersThunks.getAll(page, term));
 
     setTablePagination({
       pageSize: 20,
@@ -142,7 +150,7 @@ const UsersList = () => {
       showQuickJumper: true,
       // showTotal: (total) => `Total de ${total} registros`,
     });
-  }, [dispatch, page, tableFooter.totalCount]);
+  }, [dispatch, page, tableFooter.totalCount, term]);
 
   return (
     <Layout>
@@ -154,14 +162,22 @@ const UsersList = () => {
       />
 
       <Layout className="page-content">
-        <Button
-          type="primary"
-          className="page-btn"
-          icon={<PlusOutlined />}
-          onClick={() => history.push('/dashboard/users/create')}
-        >
-          Adicionar novo usuário
-        </Button>
+        <div className="page-options">
+          <Search
+            placeholder="Busca por nome"
+            style={{ width: 200 }}
+            onSearch={(value) => handleSearchUsers(value)}
+          />
+
+          <Button
+            type="primary"
+            className="page-btn"
+            icon={<PlusOutlined />}
+            onClick={() => history.push('/dashboard/users/create')}
+          >
+            Adicionar novo usuário
+          </Button>
+        </div>
 
         {authorized && (
           <Table

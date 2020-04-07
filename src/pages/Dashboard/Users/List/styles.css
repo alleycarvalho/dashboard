@@ -1,3 +1,9 @@
+.page-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 .page-btn {
   max-width: 200px;
   margin-bottom: 20px;
