@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Alert } from 'antd';
 import {
   PoweroffOutlined,
   UsergroupAddOutlined,
@@ -120,7 +120,17 @@ const DashboardLayout = ({ children }) => {
       </Sider>
 
       <Layout>
-        <Content className="layout-content">{children}</Content>
+        <Content className="layout-content">
+          {!token && (
+            <Alert
+              type="warning"
+              className="page-alert"
+              message="Forneça o token de acesso do GoRest Api!"
+            />
+          )}
+
+          {children}
+        </Content>
 
         {/* <Footer className="layout-footer">
           Criado por <strong>Alley M. Carvalho</strong>

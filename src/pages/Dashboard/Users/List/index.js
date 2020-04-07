@@ -8,7 +8,6 @@ import {
   Button,
   Popconfirm,
   Tooltip,
-  Alert,
 } from 'antd';
 import { DeleteOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
@@ -25,7 +24,6 @@ const { Search } = Input;
 
 const UsersList = () => {
   const alert = useSelector((state) => state.users.alert);
-  const authorized = useSelector((state) => state.users.authorized);
   const users = useSelector((state) => state.users.list);
   const tableFooter = useSelector((state) => state.users.listData);
   const loading = useSelector((state) => state.users.loading);
@@ -179,27 +177,18 @@ const UsersList = () => {
           </Button>
         </div>
 
-        {authorized && (
-          <Table
-            bordered
-            size="small"
-            columns={tableColumns}
-            rowKey={(record) => record.id}
-            dataSource={users}
-            pagination={tablePagination}
-            loading={loading}
-            footer={handleTableFooter}
-            scroll={{ x: 950 }}
-            onChange={handleTableChange}
-          />
-        )}
-
-        {!authorized && (
-          <Alert
-            type="warning"
-            message="Forneça o token de acesso do GoRest Api!"
-          />
-        )}
+        <Table
+          bordered
+          size="small"
+          columns={tableColumns}
+          rowKey={(record) => record.id}
+          dataSource={users}
+          pagination={tablePagination}
+          loading={loading}
+          footer={handleTableFooter}
+          scroll={{ x: 950 }}
+          onChange={handleTableChange}
+        />
       </Layout>
     </Layout>
   );

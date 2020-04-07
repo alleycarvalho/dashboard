@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Layout, PageHeader, Alert } from 'antd';
+import { Layout, PageHeader } from 'antd';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { usersThunks } from '~/store/thunks/users';
 
@@ -11,7 +11,6 @@ import history from '~/services/history';
 import UsersForm from '~/pages/Dashboard/Users/_partials/Form';
 
 const UsersUpdate = ({ match }) => {
-  const authorized = useSelector((state) => state.users.authorized);
   const { id } = match.params;
   const updating = true;
 
@@ -31,14 +30,6 @@ const UsersUpdate = ({ match }) => {
       />
 
       <Layout className="page-content">
-        {!authorized && (
-          <Alert
-            type="warning"
-            className="page-alert"
-            message="Forneça o token de acesso do GoRest Api!"
-          />
-        )}
-
         <UsersForm updating={updating} />
       </Layout>
     </Layout>

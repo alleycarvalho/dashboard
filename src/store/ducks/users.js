@@ -18,7 +18,6 @@ export const { Types, Creators } = createActions({
  */
 const INITIAL_STATE = {
   alert: false,
-  authorized: true,
   list: [],
   listData: {},
   firstUsers: [],
@@ -31,7 +30,6 @@ const getAllUsers = (state = INITIAL_STATE, action) => {
   const { _meta, result } = action.users;
 
   state.alert = false;
-  state.authorized = true;
   state.user = {};
 
   if (_meta.success) {
@@ -44,8 +42,6 @@ const getAllUsers = (state = INITIAL_STATE, action) => {
       currentPage,
       perPage,
     };
-  } else {
-    state.authorized = false;
   }
 
   return state;
@@ -67,7 +63,6 @@ const getUser = (state = INITIAL_STATE, action) => {
   const { _meta, result } = action.user;
 
   state.alert = false;
-  state.authorized = true;
 
   if (_meta.success) {
     // eslint-disable-next-line camelcase
@@ -87,7 +82,6 @@ const getUser = (state = INITIAL_STATE, action) => {
 
     switch (_meta.code) {
       case 401:
-        state.authorized = false;
         message = 'Operação não autorizada!';
         break;
       case 404:
@@ -109,8 +103,6 @@ const store = (state = INITIAL_STATE, action) => {
   // eslint-disable-next-line no-underscore-dangle
   const { _meta } = action.user;
 
-  state.authorized = true;
-
   if (_meta.success) {
     state.alert = {
       type: 'success',
@@ -121,7 +113,6 @@ const store = (state = INITIAL_STATE, action) => {
 
     switch (_meta.code) {
       case 401:
-        state.authorized = false;
         message = 'Operação não autorizada!';
         break;
       case 422:
@@ -143,8 +134,6 @@ const update = (state = INITIAL_STATE, action) => {
   // eslint-disable-next-line no-underscore-dangle
   const { _meta } = action.user;
 
-  state.authorized = true;
-
   if (_meta.success) {
     state.alert = {
       type: 'success',
@@ -155,7 +144,6 @@ const update = (state = INITIAL_STATE, action) => {
 
     switch (_meta.code) {
       case 401:
-        state.authorized = false;
         message = 'Operação não autorizada!';
         break;
       case 422:
@@ -177,8 +165,6 @@ const destroy = (state = INITIAL_STATE, action) => {
   // eslint-disable-next-line no-underscore-dangle
   const { _meta } = action.user;
 
-  state.authorized = true;
-
   if (_meta.success) {
     state.alert = {
       type: 'success',
@@ -189,7 +175,6 @@ const destroy = (state = INITIAL_STATE, action) => {
 
     switch (_meta.code) {
       case 401:
-        state.authorized = false;
         message = 'Operação não autorizada!';
         break;
       default:
